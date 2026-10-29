@@ -216,82 +216,60 @@
         </div>
     </div>
 
-    <div class="tabs-container" id="tabsList"></div>
-    <div id="panelsContainer"></div>
-</div>
+    <!-- 頁籤按鈕 (直接寫在 HTML 裡，絕對不會消失) -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(31)">最新關卡 (羽毛與晶石)</button>
+        <button class="tab-btn" onclick="switchTab(30)">前一關卡 (分歧大頭像寶箱)</button>
+        <button class="tab-btn" onclick="switchTab(25)">精選關卡 (最終鑰匙大匯合)</button>
+    </div>
 
-<script>
-    const mapsData = [
-        {
-            id: 31,
-            name: "最新關卡 (羽毛與晶石)",
-            routes: [
-                { title: "第 1 排（最上方：大晶石 ➔ 紅綠羽毛線）", nodes: [{lbl:"第1格 大晶石", cost:1000}, {lbl:"第2格 5個羽毛", cost:1200}, {lbl:"第3格 5個羽毛", cost:1400}] },
-                { title: "第 2 排（上數第二條：寶箱 ➔ 綠色晶石線）", nodes: [{lbl:"第1格 寶箱", cost:1100}, {lbl:"第2格 5個晶石", cost:1400}, {lbl:"第3格 5個晶石", cost:1600}] },
-                { title: "第 3 排（下數第二條：寶箱 ➔ 紅綠羽毛線）", nodes: [{lbl:"第1格 寶箱", cost:1300}, {lbl:"第2格 5個羽毛", cost:1700}, {lbl:"第3格 5個羽毛", cost:1900}] },
-                { title: "第 4 排（最下方：寶箱 ➔ 綠色晶石線）", nodes: [{lbl:"第1格 寶箱", cost:1500}, {lbl:"第2格 5個晶石", cost:1900}, {lbl:"第3格 5個晶石", cost:2100}] }
-            ]
-        },
-        {
-            id: 30,
-            name: "前一關卡 (分歧大頭像寶箱)",
-            routes: [
-                { title: "左上起點路線分支", nodes: [{lbl:"左上 腳印票券", cost:400}, {lbl:"核心 匯合頭像", cost:250}, {lbl:"上主支 寶箱", cost:200}, {lbl:"最上分支 盾牌", cost:150}, {lbl:"最上終點 盾牌", cost:500}] },
-                { title: "左下起點路線分支", nodes: [{lbl:"左下 綠色金幣", cost:500}, {lbl:"核心 匯合頭像", cost:250}, {lbl:"下主支 閃電卡", cost:200}, {lbl:"最下分支 徽章", cost:400}, {lbl:"最下終點 徽章", cost:500}] }
-            ]
-        },
-        {
-            id: 25,
-            name: "精選關卡 (最終鑰匙大匯合)",
-            routes: [
-                { title: "上半部：粉色櫻花鑰匙分支", nodes: [{lbl:"左上起點", cost:500}, {lbl:"上分支 櫻花匙", cost:200}, {lbl:"共通長方匙", cost:100}, {lbl:"共通長方匙2", cost:200}, {lbl:"最終綠金幣", cost:150}] },
-                { title: "下半部：盾牌大獎分支", nodes: [{lbl:"左下起點1", cost:200}, {lbl:"次下起點2", cost:300}, {lbl:"共通盾牌大格", cost:500}, {lbl:"共通盾牌大格2", cost:500}, {lbl:"最終綠金幣", cost:150}] }
-            ]
-        },
-        {
-            id: 1,
-            name: "第 1 關 (起點起步關卡)",
-            routes: [
-                { title: "走向 上方路線 (拿橘色票券)", nodes: [{lbl:"節點 1", cost:0}, {lbl:"節點 2", cost:40}, {lbl:"節點 3", cost:75}, {lbl:"節點 4", cost:90}, {lbl:"上方分支", cost:110}] },
-                { title: "走向 下方路線 (拿綠色票券)", nodes: [{lbl:"節點 1", cost:0}, {lbl:"節點 2", cost:50}, {lbl:"節點 3", cost:80}, {lbl:"節點 4", cost:100}, {lbl:"下方分支", cost:120}] }
-            ]
-        }
-    ];
+    <!-- 關卡面板區 -->
+    <div id="panelsContainer">
+        
+        <!-- 面板 31 -->
+        <div id="panel-31" class="map-panel active">
+            <div class="instructions">💡 提示：直接點擊你想抵達的「最終目標」，系統會自動把前面的格子全部勾選起來！</div>
+            <div class="route-row">
+                <div class="route-title">第 1 排（最上方：大晶石 ➔ 紅綠羽毛線）</div>
+                <div class="nodes-list">
+                    <div class="node-item" data-cost="1000" onclick="handleNodeClick(this)"><div class="node-name">第1格 大晶石</div><div class="node-cost">1000</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="1200" onclick="handleNodeClick(this)"><div class="node-name">第2格 5個羽毛</div><div class="node-cost">1200</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="1400" onclick="handleNodeClick(this)"><div class="node-name">第3格 5個羽毛</div><div class="node-cost">1400</div></div>
+                </div>
+            </div>
+            <div class="route-row">
+                <div class="route-title">第 2 排（上數第二條：寶箱 ➔ 綠色晶石線）</div>
+                <div class="nodes-list">
+                    <div class="node-item" data-cost="1100" onclick="handleNodeClick(this)"><div class="node-name">第1格 寶箱</div><div class="node-cost">1100</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="1400" onclick="handleNodeClick(this)"><div class="node-name">第2格 5個晶石</div><div class="node-cost">1400</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="1600" onclick="handleNodeClick(this)"><div class="node-name">第3格 5個晶石</div><div class="node-cost">1600</div></div>
+                </div>
+            </div>
+            <div class="route-row">
+                <div class="route-title">第 3 排（下數第二條：寶箱 ➔ 紅綠羽毛線）</div>
+                <div class="nodes-list">
+                    <div class="node-item" data-cost="1300" onclick="handleNodeClick(this)"><div class="node-name">第1格 寶箱</div><div class="node-cost">1300</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="1700" onclick="handleNodeClick(this)"><div class="node-name">第2格 5個羽毛</div><div class="node-cost">1700</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="1900" onclick="handleNodeClick(this)"><div class="node-name">第3格 5個羽毛</div><div class="node-cost">1900</div></div>
+                </div>
+            </div>
+        </div>
 
-    function init() {
-        const tabsList = document.getElementById('tabsList');
-        const panelsContainer = document.getElementById('panelsContainer');
-
-        mapsData.forEach((map, mapIdx) => {
-            const btn = document.createElement('button');
-            btn.className = `tab-btn ${mapIdx === 0 ? 'active' : ''}`;
-            btn.innerText = map.name;
-            btn.onclick = () => switchTab(map.id);
-            btn.setAttribute('data-tab-id', map.id);
-            tabsList.appendChild(btn);
-
-            const panel = document.createElement('div');
-            panel.id = `panel-${map.id}`;
-            panel.className = `map-panel ${mapIdx === 0 ? 'active' : ''}`;
-            panel.innerHTML = `<div class="instructions">💡 提示：直接點擊你想抵達的「最終目標」，系統會自動把前面的格子全部勾選起來！</div>`;
-
-            map.routes.forEach((route, routeIdx) => {
-                const routeRow = document.createElement('div');
-                routeRow.className = 'route-row';
-
-                const title = document.createElement('div');
-                title.className = 'route-title';
-                title.innerText = route.title;
-                routeRow.appendChild(title);
-
-                const nodesList = document.createElement('div');
-                nodesList.className = 'nodes-list';
-
-                route.nodes.forEach((node, nodeIdx) => {
-                    if (nodeIdx > 0) {
-                        const arrow = document.createElement('span');
-                        arrow.className = 'arrow';
-                        arrow.innerText = '➔';
-                        nodesList.appendChild(arrow);
-                    }
-
+        <!-- 面板 30 -->
+        <div id="panel-30" class="map-panel">
+            <div class="instructions">💡 提示：直接點擊你想抵達的「最終目標」，系統會自動把前面的格子全部勾選起來！</div>
+            <div class="route-row">
+                <div class="route-title">左上起點路線分支</div>
+                <div class="nodes-list">
+                    <div class="node-item" data-cost="400" onclick="handleNodeClick(this)"><div class="node-name">左上 腳印票券</div><div class="node-cost">400</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="250" onclick="handleNodeClick(this)"><div class="node-name">核心 匯合頭像</div><div class="node-cost">250</div></div>
+                    <span class="arrow">➔</span>
+                    <div class="node-item" data-cost="200" onclick="handleNodeClick(this)"><div class="node-name">上主支 寶箱</div><div class="node-cost">200</div></div>
+                    <span class="arrow">➔</span>
