@@ -3,272 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活動路線點數全自動計算機</title>
+    <title>活動點數計算機</title>
     <style>
-        :root {
-            --bg-color: #1a1a2e;
-            --card-bg: #16213e;
-            --accent: #0f3460;
-            --text-color: #e2e8f0;
-            --highlight: #e94560;
-            --success: #4e9f3d;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: #fff;
-            margin-bottom: 5px;
-            font-size: 24px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #888;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-        .dashboard {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .input-group label {
-            font-size: 13px;
-            color: #aaa;
-        }
-        input[type="number"] {
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: #fff;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 16px;
-            width: 160px;
-        }
-        .result-box {
-            display: flex;
-            gap: 20px;
-        }
-        .stat {
-            background: #0f172a;
-            padding: 10px 20px;
-            border-radius: 8px;
-            min-width: 120px;
-            text-align: center;
-        }
-        .stat-val {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--highlight);
-        }
-        .stat-val.sufficient {
-            color: var(--success);
-        }
-        .stat-lbl {
-            font-size: 12px;
-            color: #888;
-            margin-top: 3px;
-        }
-        .tabs-container {
-            overflow-x: auto;
-            white-space: nowrap;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #334155;
-        }
-        .tab-btn {
-            background: none;
-            border: none;
-            color: #888;
-            padding: 10px 18px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-radius: 6px 6px 0 0;
-        }
-        .tab-btn:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.05);
-        }
-        .tab-btn.active {
-            color: var(--highlight);
-            font-weight: bold;
-            border-bottom: 3px solid var(--highlight);
-            background: rgba(233, 69, 96, 0.1);
-        }
-        .map-panel {
-            display: none;
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-        .map-panel.active {
-            display: block;
-        }
-        .instructions {
-            font-size: 13px;
-            color: #94a3b8;
-            margin-bottom: 20px;
-            background: rgba(255,255,255,0.02);
-            padding: 10px;
-            border-radius: 6px;
-            border-left: 3px solid var(--highlight);
-        }
-        .route-row {
-            margin-bottom: 25px;
-            background: #111827;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #1f2937;
-        }
-        .route-title {
-            font-size: 15px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #60a5fa;
-        }
-        .nodes-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-        }
-        .node-item {
-            background: #1f2937;
-            border: 2px solid #374151;
-            border-radius: 8px;
-            padding: 10px 15px;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s;
-            text-align: center;
-            min-width: 85px;
-        }
-        .node-item:hover {
-            border-color: #9ca3af;
-        }
-        .node-item.selected {
-            background: var(--highlight);
-            border-color: #ff6b81;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(233, 69, 96, 0.4);
-        }
-        .node-name {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-bottom: 2px;
-        }
-        .node-item.selected .node-name {
-            color: #ffe4e6;
-        }
-        .node-cost {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .arrow {
-            color: #4b5563;
-            font-size: 18px;
-        }
+        body { font-family: sans-serif; background: #1a1a2e; color: #fff; padding: 20px; }
+        .box { background: #16213e; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
+        .row { background: #0f172a; padding: 15px; margin: 10px 0; border-radius: 6px; display: flex; align-items: center; gap: 10px; }
+        input[type="number"] { width: 120px; padding: 8px; font-size: 16px; }
+        input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+        .score { font-size: 24px; color: #e94560; font-weight: bold; margin: 15px 0; }
+        label { cursor: pointer; font-size: 16px; flex-grow: 1; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🎯 活動路線點數全自動計算機</h1>
-    <div class="subtitle">離線可用 • 點擊最終格子自動往回秒算總和</div>
+<div class="box">
+    <h2>🎯 活動點數全自動計算機</h2>
+    
+    <p>
+        <label>目前擁有的現有點數：</label>
+        <input type="number" id="currentPoints" value="0" oninput="calc()">
+    </p>
 
-    <div class="dashboard">
-        <div class="input-group">
-            <label for="currentPoints">目前擁有的現有點數：</label>
-            <input type="number" id="currentPoints" value="0" min="0" oninput="calculateTotal()">
-        </div>
-        <div class="result-box">
-            <div class="stat">
-                <div class="stat-val" id="totalNeeded">0</div>
-                <div class="stat-lbl">所選目標總需求</div>
-            </div>
-            <div class="stat">
-                <div class="stat-val" id="pointsDiff">0</div>
-                <div class="stat-lbl" id="diffLabel">還差多少點數</div>
-            </div>
-        </div>
+    <div class="score">所選目標總需求：<span id="totalNeeded">0</span></div>
+    <div class="score">還差多少點數：<span id="pointsDiff">0</span></div>
+
+    <h3>請勾選你想拿的獎勵格子：</h3>
+    
+    <div class="row">
+        <input type="checkbox" class="node" data-cost="1000" id="m1" onchange="calc()">
+        <label for="m1"><span>第 1 格：大晶石</span> <span>(1000 點)</span></label>
+    </div>
+    
+    <div class="row">
+        <input type="checkbox" class="node" data-cost="1200" id="m2" onchange="calc()">
+        <label for="m2"><span>第 2 格：5個羽毛</span> <span>(1200 點)</span></label>
+    </div>
+    
+    <div class="row">
+        <input type="checkbox" class="node" data-cost="1400" id="m3" onchange="calc()">
+        <label for="m3"><span>第 3 格：5個羽毛</span> <span>(1400 點)</span></label>
     </div>
 
-    <!-- 修正：分頁按鈕傳入 this 確保絕對不報錯 -->
-    <div class="tabs-container">
-        <button class="tab-btn active" onclick="switchTab(this, 31)">最新關卡 (羽毛與晶石)</button>
-        <button class="tab-btn" onclick="switchTab(this, 30)">前一關卡 (分歧大頭像寶箱)</button>
-        <button class="tab-btn" onclick="switchTab(this, 25)">精選關卡 (最終鑰匙大匯合)</button>
+    <div class="row">
+        <input type="checkbox" class="node" data-cost="1100" id="m4" onchange="calc()">
+        <label for="m4"><span>第 4 格：寶箱</span> <span>(1100 點)</span></label>
     </div>
+</div>
 
-    <div id="panelsContainer">
-        
-        <!-- 面板 31 -->
-        <div id="panel-31" class="map-panel active">
-            <div class="instructions">💡 提示：直接點擊你想抵達的「最終目標」，系統會自動把前面的格子全部勾選起來！</div>
-            <div class="route-row">
-                <div class="route-title">第 1 排（最上方：大晶石 ➔ 紅綠羽毛線）</div>
-                <div class="nodes-list">
-                    <div class="node-item" data-cost="1000" onclick="handleNodeClick(this)"><div class="node-name">第1格 大晶石</div><div class="node-cost">1000</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="1200" onclick="handleNodeClick(this)"><div class="node-name">第2格 5個羽毛</div><div class="node-cost">1200</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="1400" onclick="handleNodeClick(this)"><div class="node-name">第3格 5個羽毛</div><div class="node-cost">1400</div></div>
-                </div>
-            </div>
-            <div class="route-row">
-                <div class="route-title">第 2 排（上數第二條：寶箱 ➔ 綠色晶石線）</div>
-                <div class="nodes-list">
-                    <div class="node-item" data-cost="1100" onclick="handleNodeClick(this)"><div class="node-name">第1格 寶箱</div><div class="node-cost">1100</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="1400" onclick="handleNodeClick(this)"><div class="node-name">第2格 5個晶石</div><div class="node-cost">1400</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="1600" onclick="handleNodeClick(this)"><div class="node-name">第3格 5個晶石</div><div class="node-cost">1600</div></div>
-                </div>
-            </div>
-            <div class="route-row">
-                <div class="route-title">第 3 排（下數第二條：寶箱 ➔ 紅綠羽毛線）</div>
-                <div class="nodes-list">
-                    <div class="node-item" data-cost="1300" onclick="handleNodeClick(this)"><div class="node-name">第1格 寶箱</div><div class="node-cost">1300</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="1700" onclick="handleNodeClick(this)"><div class="node-name">第2格 5個羽毛</div><div class="node-cost">1700</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="1900" onclick="handleNodeClick(this)"><div class="node-name">第3格 5個羽毛</div><div class="node-cost">1900</div></div>
-                </div>
-            </div>
-        </div>
+<script>
+    function calc() {
+        let total = 0;
+        // 抓取所有被勾選的格子
+        document.querySelectorAll('.node:checked').forEach(el => {
+            total += parseInt(el.getAttribute('data-cost') || '0', 10);
+        });
 
-        <!-- 面板 30 -->
-        <div id="panel-30" class="map-panel">
-            <div class="instructions">💡 提示：直接點擊你想抵達的「最終目標」，系統會自動把前面的格子全部勾選起來！</div>
-            <div class="route-row">
-                <div class="route-title">左上起點路線分支</div>
-                <div class="nodes-list">
-                    <div class="node-item" data-cost="400" onclick="handleNodeClick(this)"><div class="node-name">左上 腳印票券</div><div class="node-cost">400</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="250" onclick="handleNodeClick(this)"><div class="node-name">核心 匯合頭像</div><div class="node-cost">250</div></div>
-                    <span class="arrow">➔</span>
-                    <div class="node-item" data-cost="200" onclick="handleNodeClick(this)"><div class="node-name">上主支 寶箱</div><div class="node-cost">200</div></div>
-                    <span class="arrow">➔</span>
+        let current = parseInt(document.getElementById('currentPoints').value || '0', 10);
+        let diff = total - current;
+
+        document.getElementById('totalNeeded').innerText = total;
+        document.getElementById('pointsDiff').innerText = diff <= 0 ? "點數已夠！(多出 " + Math.abs(diff) + ")" : diff;
+    }
+</script>
+
+</body>
+</html>
