@@ -216,14 +216,13 @@
         </div>
     </div>
 
-    <!-- 頁籤按鈕 (直接寫在 HTML 裡，絕對不會消失) -->
+    <!-- 修正：分頁按鈕傳入 this 確保絕對不報錯 -->
     <div class="tabs-container">
-        <button class="tab-btn active" onclick="switchTab(31)">最新關卡 (羽毛與晶石)</button>
-        <button class="tab-btn" onclick="switchTab(30)">前一關卡 (分歧大頭像寶箱)</button>
-        <button class="tab-btn" onclick="switchTab(25)">精選關卡 (最終鑰匙大匯合)</button>
+        <button class="tab-btn active" onclick="switchTab(this, 31)">最新關卡 (羽毛與晶石)</button>
+        <button class="tab-btn" onclick="switchTab(this, 30)">前一關卡 (分歧大頭像寶箱)</button>
+        <button class="tab-btn" onclick="switchTab(this, 25)">精選關卡 (最終鑰匙大匯合)</button>
     </div>
 
-    <!-- 關卡面板區 -->
     <div id="panelsContainer">
         
         <!-- 面板 31 -->
