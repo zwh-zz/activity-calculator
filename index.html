@@ -201,7 +201,7 @@
 
     <div class="dashboard">
         <div class="input-group">
-            <label for="currentPoints">目前擁建立的現有點數：</label>
+            <label for="currentPoints">目前擁有的現有點數：</label>
             <input type="number" id="currentPoints" value="0" min="0" oninput="calculateTotal()">
         </div>
         <div class="result-box">
@@ -221,7 +221,6 @@
 </div>
 
 <script>
-    // 預錄入的核心精華及最新高額大關卡數據
     const mapsData = [
         {
             id: 31,
@@ -259,13 +258,11 @@
         }
     ];
 
-    // 初始化頁面生成
     function init() {
         const tabsList = document.getElementById('tabsList');
         const panelsContainer = document.getElementById('panelsContainer');
 
         mapsData.forEach((map, mapIdx) => {
-            // 1. 生成 Tab 按鈕
             const btn = document.createElement('button');
             btn.className = `tab-btn ${mapIdx === 0 ? 'active' : ''}`;
             btn.innerText = map.name;
@@ -273,15 +270,11 @@
             btn.setAttribute('data-tab-id', map.id);
             tabsList.appendChild(btn);
 
-            // 2. 生成對應的關卡面板
             const panel = document.createElement('div');
             panel.id = `panel-${map.id}`;
             panel.className = `map-panel ${mapIdx === 0 ? 'active' : ''}`;
-
-            // 加上提示文字
             panel.innerHTML = `<div class="instructions">💡 提示：直接點擊你想抵達的「最終目標」，系統會自動把前面的格子全部勾選起來！</div>`;
 
-            // 生成每條路線
             map.routes.forEach((route, routeIdx) => {
                 const routeRow = document.createElement('div');
                 routeRow.className = 'route-row';
@@ -295,6 +288,10 @@
                 nodesList.className = 'nodes-list';
 
                 route.nodes.forEach((node, nodeIdx) => {
-                    // 如果不是第一個節點，先加個箭頭
                     if (nodeIdx > 0) {
                         const arrow = document.createElement('span');
+                        arrow.className = 'arrow';
+                        arrow.innerText = '➔';
+                        nodesList.appendChild(arrow);
+                    }
+
